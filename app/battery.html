@@ -1,0 +1,92 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Battery Monitor</title>
+  <link rel="manifest" href="manifest.json">
+  <style>
+    body {
+      background-color: #000;
+      color: #00ff00;
+      display: flex;
+      flex-direction: column;
+      justify-content: center;
+      align-items: center;
+      height: 100vh;
+      font-family: Arial, sans-serif;
+      margin: 0;
+    }
+
+    #level {
+      font-size: 120px;
+      font-weight: bold;
+    }
+
+    #bar-container {
+      width: 80%;
+      height: 40px;
+      border: 3px solid #00ff00;
+      border-radius: 20px;
+      margin-top: 40px;
+    }
+
+    #bar {
+      height: 100%;
+      width: 0%;
+      background-color: #00ff00;
+      border-radius: 17px;
+      transition: width 0.3s ease;
+    }
+
+    #status {
+      margin-top: 20px;
+      font-size: 24px;
+      color: #cccccc;
+    }
+
+    a {
+      color: #00ff00;
+      margin-top: 40px;
+      text-decoration: none;
+      font-size: 18px;
+      border: 1px solid #00ff00;
+      border-radius: 10px;
+      padding: 10px 20px;
+    }
+  </style>
+</head>
+<body>
+  <div id="level">--%</div>
+  <div id="bar-container">
+    <div id="bar"></div>
+  </div>
+  <div id="status">Loading...</div>
+  <a href="index.html">← Back</a>
+
+  <script>
+    async function updateBattery() {
+      if (!navigator.getBattery) {
+        document.getElementById('status').textContent = "Battery API not supported";
+        return;
+      }
+
+      const battery = await navigator.getBattery();
+      const level = Math.round(battery.level * 100);
+      const charging = battery.charging;
+
+      document.getElementById('level').textContent = level + "%";
+      document.getElementById('bar').style.width = level + "%";
+      document.getElementById('status').textContent = charging ? "Charging ⚡" : "On Battery";
+
+      const bar = document.getElementById('bar');
+      if (level > 60) bar.style.backgroundColor = "#00ff00";
+      else if (level > 30) bar.style.backgroundColor = "orange";
+      else bar.style.backgroundColor = "red";
+    }
+
+    updateBattery();
+    setInterval(updateBattery, 5000);
+  </script>
+</body>
+</html>
