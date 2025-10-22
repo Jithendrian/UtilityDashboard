@@ -19,7 +19,7 @@
     }
 
     #level {
-      font-size: 120px;
+      font-size: 300px;
       font-weight: bold;
     }
 
@@ -74,9 +74,8 @@
       const battery = await navigator.getBattery();
       const level = Math.round(battery.level * 100);
       const charging = battery.charging;
-
-      document.getElementById('level').textContent = level + "%";
       document.getElementById('bar').style.width = level + "%";
+      document.getElementById('level').textContent = level + "%";
       document.getElementById('status').textContent = charging ? "Charging ⚡" : "On Battery";
 
       const bar = document.getElementById('bar');
@@ -86,7 +85,7 @@
     }
 
     updateBattery();
-    setInterval(updateBattery, 5);
+    setInterval(updateBattery, 5000);
   </script>
 </body>
 </html>
