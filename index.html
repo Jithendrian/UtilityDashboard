@@ -37,6 +37,13 @@
     }
   </style>
 </head>
+<script>
+    if ('serviceWorker' in navigator) {
+      navigator.serviceWorker.register('sw.js')
+        .then(() => console.log("✅ Service Worker registered successfully"))
+        .catch(err => console.error("❌ Service Worker registration failed:", err));
+    }
+  </script>
 <body>
   <h1>My Utilities ⚙️</h1>
   <a href="battery.html">🔋 Battery Monitor</a>
